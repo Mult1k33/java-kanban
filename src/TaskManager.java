@@ -174,7 +174,6 @@ class TaskManager {
 
 
     private Integer generateId() {
-        this.id++;
-        return this.id;
+        return this.id++;
     }
 }
