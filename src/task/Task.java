@@ -1,3 +1,6 @@
+package task;
+
+import enums.Status;
 
 public class Task {
 
@@ -5,6 +8,13 @@ public class Task {
     private String title;
     private String description;
     private Status status;
+
+    public Task(Integer id, String title, String description, Status status) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+    }
 
     public Task(String title, String description) {
         this.title = title;

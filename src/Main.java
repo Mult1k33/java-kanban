@@ -1,40 +1,47 @@
+import enums.Status;
+import manager.*;
+import task.*;
+
+/*Доброго времени, Владимир!
+Код претерпел некоторые изменения в сравнении с прошлым спринтом.
+Создал пакеты для удобства работы и более четкой структуры проекта.
+Изменил логику нескольких методов, т.к. смущали некоторые моменты.
+Надеюсь, что данные решения не испортили картины.
+
+Насчет тестов есть сомнения.
+Если честно, совсем не могу понять, как написать эти 2 теста:
+1) Проверить, что объект Epic нельзя добавить в самого себя в виде подзадачи;
+2) Проверить, что объект Subtask нельзя сделать своим же эпиком.
+ */
+
 public class Main {
+
+    private static final TaskManager inMemoryTaskManager = Managers.getDefault();
 
     public static void main(String[] args) {
 
-        System.out.println("Поехали!");
-
-        TaskManager taskManager = new TaskManager();
-
         //Создние двух задач, эпика с двумя подзадачами и эпика с одной подзадачей
         Task task1 = new Task("Стать разработчиком Java", "Пройти обучение в ЯП");
-        taskManager.createTask(task1);
+        inMemoryTaskManager.createTask(task1);
         Task task2 = new Task("Вакансия 114597", "Закрыть вакансию SA");
-        taskManager.createTask(task2);
+        inMemoryTaskManager.createTask(task2);
 
         Epic epic1 = new Epic("ФЗ спринта 4", "Написать бэкенд для трекера задач");
-        taskManager.createEpic(epic1);
+        inMemoryTaskManager.createEpic(epic1);
 
         Subtask subtask1 = new Subtask("Подзадача 1", "Написать код программы", epic1.getId());
-        taskManager.createSubtask(subtask1);
+        inMemoryTaskManager.createSubtask(subtask1);
         Subtask subtask2 = new Subtask("Подзадача 2", "Пройти ревью", epic1.getId());
-        taskManager.createSubtask(subtask2);
+        inMemoryTaskManager.createSubtask(subtask2);
 
         Epic epic2 = new Epic("Б.Эккель", "Дополнительня литература");
-        taskManager.createEpic(epic2);
+        inMemoryTaskManager.createEpic(epic2);
 
         Subtask subtask3 = new Subtask("Философия Java", "Прочитать 2 главы", epic2.getId());
-        taskManager.createSubtask(subtask3);
+        inMemoryTaskManager.createSubtask(subtask3);
 
-
-        //Вывод списков задач, эпиков и подзадач
-        System.out.println("Все задачи:");
-        System.out.println(taskManager.getAllTasks());
-        System.out.println("Все эпики:");
-        System.out.println(taskManager.getAllEpics());
-        System.out.println("Все подзадачи:");
-        System.out.println(taskManager.getAllSubtasks());
-
+        printAllTasks();
+        System.out.println();
 
         //Изменение статусов задач и подзадач
         task1.setStatus(Status.IN_PROGRESS);
@@ -46,64 +53,64 @@ public class Main {
 
 
         // Обновление статусов задач, эпиков и подзадач
-        taskManager.updateTask(task1);
-        taskManager.updateTask(task2);
+        inMemoryTaskManager.updateTask(task1);
+        inMemoryTaskManager.updateTask(task2);
 
-        taskManager.updateEpic(epic1);
-        taskManager.updateEpic(epic2);
+        inMemoryTaskManager.updateEpic(epic1);
+        inMemoryTaskManager.updateEpic(epic2);
 
-        taskManager.updateSubtask(subtask1);
-        taskManager.updateSubtask(subtask2);
-        taskManager.updateSubtask(subtask3);
+        inMemoryTaskManager.updateSubtask(subtask1);
+        inMemoryTaskManager.updateSubtask(subtask2);
+        inMemoryTaskManager.updateSubtask(subtask3);
 
         // Вывод списков задач, эпиков и подзадач с измененными статусами
+        System.out.println();
+        System.out.println("После обновления:");
+        printAllTasks();
+
+        //Вывод истории просмотров
+        System.out.println();
+        printHistoryView();
+    }
+
+    //Вывод списков задач, эпиков и подзадач
+    public static void printAllTasks() {
         System.out.println("Все задачи:");
-        System.out.println(taskManager.getAllTasks());
+        for (Task task : inMemoryTaskManager.getAllTasks()) {
+            System.out.println(task);
+        }
         System.out.println("Все эпики:");
-        System.out.println(taskManager.getAllEpics());
+        for (Epic epic : inMemoryTaskManager.getAllEpics()) {
+            System.out.println(epic);
+
+            for (Task task : inMemoryTaskManager.getSubtaskByEpic(epic)) {
+                System.out.println("-->" + task);
+            }
+        }
         System.out.println("Все подзадачи:");
-        System.out.println(taskManager.getAllSubtasks());
+        for (Task subtask : inMemoryTaskManager.getAllSubtasks()) {
+            System.out.println(subtask);
+        }
+    }
 
+    //Метод вывода истории последних просмотренных 10 задач (добавлены 11 для проверки)
+    public static void printHistoryView() {
+        inMemoryTaskManager.getTaskById(2);
+        inMemoryTaskManager.getTaskById(1);
+        inMemoryTaskManager.getEpicById(3);
+        inMemoryTaskManager.getSubtaskById(7);
+        inMemoryTaskManager.getSubtaskById(4);
+        inMemoryTaskManager.getTaskById(2);
+        inMemoryTaskManager.getSubtaskById(5);
+        inMemoryTaskManager.getEpicById(6);
+        inMemoryTaskManager.getTaskById(2);
+        inMemoryTaskManager.getSubtaskById(4);
+        inMemoryTaskManager.getSubtaskById(7);
 
-        //Получение и вывод задач, эпиков и подзадач по id
-        System.out.println("Задача:");
-        System.out.println(taskManager.getTaskById(2));
-        System.out.println("Эпик:");
-        System.out.println(taskManager.getEpicById(3));
-        System.out.println("Подзадача:");
-        System.out.println(taskManager.getSubtaskById(4));
-
-        //Получение и вывод всех подзадач определенного эпика
-        System.out.println("Подзадача определенного эпика:");
-        System.out.println(taskManager.getSubtaskByEpic(3));
-
-
-        //Удаление одной задачи и одного эпика по id и
-        taskManager.deleteTask(2);
-        taskManager.deleteEpic(6);
-        taskManager.deleteSubtask(4);
-
-        // Вывод списков задач, эпиков и подзадач после удалений
-        System.out.println("Все задачи:");
-        System.out.println(taskManager.getAllTasks());
-        System.out.println("Все эпики:");
-        System.out.println(taskManager.getAllEpics());
-        System.out.println("Все подзадачи:");
-        System.out.println(taskManager.getAllSubtasks());
-
-
-        //Удаление всех задач, эпиков и подзадач
-        taskManager.deleteAllTasks();
-        taskManager.deleteAllEpics();
-        taskManager.deleteAllSubtasks();
-
-        // Вывод списков задач, эпиков и подзадач после всех удалений
-        System.out.println("Все задачи:");
-        System.out.println(taskManager.getAllTasks());
-        System.out.println("Все эпики:");
-        System.out.println(taskManager.getAllEpics());
-        System.out.println("Все подзадачи:");
-        System.out.println(taskManager.getAllSubtasks());
-
+        System.out.println();
+        System.out.println("История:");
+        for (Task task : inMemoryTaskManager.getHistory()) {
+            System.out.println(task);
+        }
     }
 }
