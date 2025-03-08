@@ -4,19 +4,16 @@ import task.Epic;
 import task.Subtask;
 import task.Task;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public interface TaskManager {
 
-    Integer generateId();
-
     //Методы получения списков всех созданных задач, эпиков и подзадач
-    ArrayList<Task> getAllTasks();
+    List<Task> getAllTasks();
 
-    ArrayList<Epic> getAllEpics();
+    List<Epic> getAllEpics();
 
-    ArrayList<Subtask> getAllSubtasks();
+    List<Subtask> getAllSubtasks();
 
     //Методы для удаления всех задач, эпиков и подзадач
     void deleteAllTasks();
@@ -54,7 +51,7 @@ public interface TaskManager {
     Subtask deleteSubtask(Integer idSubtask);
 
     //Дополнительный метод получения списка всех подзадач определённого эпика
-    ArrayList<Subtask> getSubtaskByEpic(Epic epic);
+    List<Subtask> getSubtaskByEpic(Integer idEpic);
 
     //Метод для отображения последних просмотренных 10 задач
     List<Task> getHistory();

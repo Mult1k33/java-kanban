@@ -18,6 +18,26 @@ class InMemoryTaskManagerTest {
         taskManager = Managers.getDefault();
     }
 
+    //Проверьте, что объект Epic нельзя добавить в самого себя в виде подзадачи;
+    @Test
+    public void epicCannotAddItselfAsASubtask() {
+        Epic epic = new Epic(1, "ЭпикТест 1", "Описание эпикТеста 1", Status.NEW);
+        taskManager.createEpic(epic);
+        epic.addSubtask(epic.getId());
+        assertFalse(epic.getSubtasksId().contains(epic.getId()),
+                "Эпик нельзя добавить в самого себя в виде подзадачи!");
+    }
+
+    // Проверьте, что объект Subtask не может быть своим же эпиком
+    @Test
+    void subtaskCannotBeItsOwnEpic() {
+        Epic epic = new Epic(1, "ЭпикТест 2", "Описание эпикТеста 2", Status.NEW);
+        taskManager.createEpic(epic);
+        Subtask subtask = new Subtask(1, "Подзадача 1", "Описание подзадачи 1", Status.NEW, 1);
+        taskManager.createSubtask(subtask);
+        subtask.setEpicId(subtask.getId()); // Устанавливаем ID подзадачи как ID эпика
+        assertEquals(1,subtask.getEpicId(), "Подзадачу нельзя сделать своим эпиком!");
+    }
 
     //Проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id;
     @Test
@@ -36,7 +56,7 @@ class InMemoryTaskManagerTest {
                 "Описание подзадачи 5", Status.NEW, epicTest.getId());
         taskManager.createSubtask(subtaskTest);
         assertEquals(subtaskTest, taskManager.getSubtaskById(3),
-                "Подзадача должна добавить и находиться по id!");
+                "Подзадача должна добавиться и находиться по id!");
     }
 
 
@@ -90,7 +110,7 @@ class InMemoryTaskManagerTest {
         taskManager.getSubtaskById(9);
         assertNotNull(subtaskTest3, "Подзадача не найдена!");
 
-        assertNotEquals(taskManager.getSubtaskByEpic(epicTest4), subtaskTest3.getId(),
+        assertNotEquals(taskManager.getSubtaskByEpic(epicTest4.getId()), subtaskTest3.getId(),
                 "Подзадачи с заданным и сгенерированным id не должны конфликтовать!");
     }
 

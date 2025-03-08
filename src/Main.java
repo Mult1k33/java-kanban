@@ -2,18 +2,6 @@ import enums.Status;
 import manager.*;
 import task.*;
 
-/*Доброго времени, Владимир!
-Код претерпел некоторые изменения в сравнении с прошлым спринтом.
-Создал пакеты для удобства работы и более четкой структуры проекта.
-Изменил логику нескольких методов, т.к. смущали некоторые моменты.
-Надеюсь, что данные решения не испортили картины.
-
-Насчет тестов есть сомнения.
-Если честно, совсем не могу понять, как написать эти 2 теста:
-1) Проверить, что объект Epic нельзя добавить в самого себя в виде подзадачи;
-2) Проверить, что объект Subtask нельзя сделать своим же эпиком.
- */
-
 public class Main {
 
     private static final TaskManager inMemoryTaskManager = Managers.getDefault();
@@ -83,7 +71,7 @@ public class Main {
         for (Epic epic : inMemoryTaskManager.getAllEpics()) {
             System.out.println(epic);
 
-            for (Task task : inMemoryTaskManager.getSubtaskByEpic(epic)) {
+            for (Task task : inMemoryTaskManager.getSubtaskByEpic(epic.getId())) {
                 System.out.println("-->" + task);
             }
         }

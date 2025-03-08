@@ -21,10 +21,18 @@ public class Subtask extends Task {
         return epicId;
     }
 
+    public void setEpicId(Integer epicId) {
+        if (epicId != this.getId()) {
+            this.epicId = epicId;
+        }
+    }
+
     @Override
     public String toString() {
         return "Task.Subtask{" +
                 "epicId=" + epicId +
                 "} " + super.toString();
     }
+
+
 }
