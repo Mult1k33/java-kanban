@@ -1,4 +1,4 @@
-package test.model;
+package model;
 
 import enums.Status;
 import org.junit.jupiter.api.Test;
@@ -16,5 +16,4 @@ class SubtaskTest {
     public void tasksWithEqualIdShouldBeEqual() {
         assertEquals(subtask1, subtask2, "Наследники класса task.Task с одинаковым id должны быть равны! ");
     }
-
 }

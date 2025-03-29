@@ -1,6 +1,5 @@
-package test.service;
+package service;
 
-import service.*;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,7 +1,6 @@
-package test.service;
+package service;
 
 import enums.Status;
-import service.*;
 import org.junit.jupiter.api.*;
 import model.*;
 

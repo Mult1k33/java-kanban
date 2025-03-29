@@ -1,8 +1,6 @@
-package test.service;
+package service;
 
 import enums.Status;
-import service.Managers;
-import service.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import model.*;
