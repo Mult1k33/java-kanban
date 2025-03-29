@@ -1,6 +1,8 @@
-package task;
+package model;
 
 import enums.Status;
+
+import java.util.Objects;
 
 public class Task {
 
@@ -8,6 +10,12 @@ public class Task {
     private String title;
     private String description;
     private Status status;
+
+    public Task(Integer id, String title, String description) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+    }
 
     public Task(Integer id, String title, String description, Status status) {
         this.id = id;
@@ -42,7 +50,7 @@ public class Task {
         return description;
     }
 
-    public void setDescription() {
+    public void setDescription(String description) {
         this.description = description;
     }
 
@@ -63,5 +71,17 @@ public class Task {
                 ", description='" + description + '\'' +
                 ", status=" + status +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Task task)) return false;
+        return id == task.id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

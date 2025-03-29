@@ -1,4 +1,4 @@
-package task;
+package model;
 
 import enums.Status;
 
@@ -14,12 +14,10 @@ public class Epic extends Task {
         this.subtasksId = new ArrayList<>();
     }
 
-
     public Epic(Integer id, String title, String description, Status status) {
         super(id, title, description, status);
         this.subtasksId = new ArrayList<>();
     }
-
 
     public void addSubtask(Integer subtaskId) {
         if (subtaskId != this.getId()) {
@@ -35,6 +33,10 @@ public class Epic extends Task {
         subtasksId.clear();
     }
 
+    public void deleteSubtaskById(Integer id) {
+        subtasksId.remove(id);
+    }
+
     public void setSubtasksId(List<Integer> subtasksId) {
         this.subtasksId = subtasksId;
     }
@@ -45,5 +47,4 @@ public class Epic extends Task {
                 "subtasks=" + subtasksId +
                 "} " + super.toString();
     }
-
 }
