@@ -72,15 +72,15 @@ public class InMemoryHistoryManager implements HistoryManager {
     // Метод удаляет задачу из истории просмотров
     @Override
     public void remove(Integer id) {
-            if (historyMap.containsKey(id)) {
-                removeNode(historyMap.get(id));
-                historyMap.remove(id);
-            }
+        if (historyMap.containsKey(id)) {
+            removeNode(historyMap.get(id));
+            historyMap.remove(id);
         }
+    }
 
     // Метод возвращает список последних просмотренных задач
     @Override
-    public List<Task> getHistory(){
+    public List<Task> getHistory() {
         return getTasks();
     }
 

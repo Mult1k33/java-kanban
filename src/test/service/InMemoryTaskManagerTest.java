@@ -38,7 +38,7 @@ class InMemoryTaskManagerTest {
         Subtask subtask = new Subtask(1, "Подзадача 1", "Описание подзадачи 1", Status.NEW, 1);
         taskManager.createSubtask(subtask);
         subtask.setEpicId(subtask.getId()); // Устанавливаем ID подзадачи как ID эпика
-        assertEquals(1,subtask.getEpicId(), "Подзадачу нельзя сделать своим эпиком!");
+        assertEquals(1, subtask.getEpicId(), "Подзадачу нельзя сделать своим эпиком!");
     }
 
     //Проверьте, что InMemoryTaskManager действительно добавляет задачи разного типа и может найти их по id;
@@ -158,7 +158,7 @@ class InMemoryTaskManagerTest {
 
     @Test
     public void checkAddNewEpic() {
-        Epic testEpic = new Epic(1,"Тестовый эпик", "Описание тестового эпика",Status.IN_PROGRESS);
+        Epic testEpic = new Epic(1, "Тестовый эпик", "Описание тестового эпика", Status.IN_PROGRESS);
         taskManager.createEpic(testEpic);
         assertEquals(1, taskManager.getAllEpics().size(), "Ожидался список из 1 элемента");
         assertTrue(taskManager.getAllEpics().contains(testEpic), "Добавленный эпик не найден!");
