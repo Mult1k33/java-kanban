@@ -10,7 +10,7 @@ public class TaskNode {
     private TaskNode prev;
     private TaskNode next;
 
-    TaskNode(Task task, TaskNode prev) {
+    public TaskNode(Task task, TaskNode prev) {
         this.task = task;
         this.prev = prev;
         this.next = null;

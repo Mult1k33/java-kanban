@@ -18,6 +18,43 @@ public class InMemoryHistoryManager implements HistoryManager {
         this.tail = null;
     }
 
+    // Метод добавляет задачу в список просмотренных задач.
+    @Override
+    public void add(Task task) {
+        int id = task.getId();
+        remove(id);
+
+        linkLast(task);
+        historyMap.put(id, tail);
+    }
+
+    // Метод удаляет задачу из истории просмотров
+    @Override
+    public void remove(Integer id) {
+        if (historyMap.containsKey(id)) {
+            removeNode(historyMap.get(id));
+            historyMap.remove(id);
+        }
+    }
+
+    // Метод возвращает список последних просмотренных задач
+    @Override
+    public List<Task> getHistory() {
+        return getTasks();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        InMemoryHistoryManager that = (InMemoryHistoryManager) o;
+        return Objects.equals(getTasks(), that.getTasks());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getTasks());
+    }
 
     // Метод добавляет задачу в конец списка истории просмотров
     private void linkLast(Task task) {
@@ -57,43 +94,5 @@ public class InMemoryHistoryManager implements HistoryManager {
             current = current.getNext();
         }
         return listHistory;
-    }
-
-    // Метод добавляет задачу в список просмотренных задач.
-    @Override
-    public void add(Task task) {
-        int id = task.getId();
-        remove(id);
-
-        linkLast(task);
-        historyMap.put(id, tail);
-    }
-
-    // Метод удаляет задачу из истории просмотров
-    @Override
-    public void remove(Integer id) {
-        if (historyMap.containsKey(id)) {
-            removeNode(historyMap.get(id));
-            historyMap.remove(id);
-        }
-    }
-
-    // Метод возвращает список последних просмотренных задач
-    @Override
-    public List<Task> getHistory() {
-        return getTasks();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        InMemoryHistoryManager that = (InMemoryHistoryManager) o;
-        return Objects.equals(getTasks(), that.getTasks());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getTasks());
     }
 }
