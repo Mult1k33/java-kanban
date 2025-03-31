@@ -1,4 +1,4 @@
-package task;
+package model;
 
 import enums.Status;
 
@@ -33,6 +33,4 @@ public class Subtask extends Task {
                 "epicId=" + epicId +
                 "} " + super.toString();
     }
-
-
 }

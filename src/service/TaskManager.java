@@ -1,8 +1,8 @@
-package manager;
+package service;
 
-import task.Epic;
-import task.Subtask;
-import task.Task;
+import model.Epic;
+import model.Subtask;
+import model.Task;
 
 import java.util.List;
 
@@ -30,29 +30,29 @@ public interface TaskManager {
     Subtask getSubtaskById(Integer idSubtask);
 
     //Методы для создания задач, эпиков и подзадач
-    Task createTask(Task task);
+    void createTask(Task task);
 
-    Epic createEpic(Epic epic);
+    void createEpic(Epic epic);
 
-    Subtask createSubtask(Subtask subtask);
+    void createSubtask(Subtask subtask);
 
     //Методы обновления задач, эпиков и подзадач
-    Task updateTask(Task task);
+    void updateTask(Task task);
 
-    Epic updateEpic(Epic epic);
+    void updateEpic(Epic epic);
 
-    Subtask updateSubtask(Subtask subtask);
+    void updateSubtask(Subtask subtask);
 
     //Методы удаления задач по идентификатору
-    Task deleteTask(Integer idTask);
+    void deleteTask(Integer idTask);
 
-    Epic deleteEpic(Integer idEpic);
+    void deleteEpic(Integer idEpic);
 
-    Subtask deleteSubtask(Integer idSubtask);
+    void deleteSubtask(Integer idSubtask);
 
     //Дополнительный метод получения списка всех подзадач определённого эпика
     List<Subtask> getSubtaskByEpic(Integer idEpic);
 
-    //Метод для отображения последних просмотренных 10 задач
+    //Метод для отображения последних просмотренных задач
     List<Task> getHistory();
 }
