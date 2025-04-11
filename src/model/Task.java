@@ -1,6 +1,7 @@
 package model;
 
 import enums.Status;
+import enums.TaskType;
 
 import java.util.Objects;
 
@@ -63,14 +64,19 @@ public class Task {
         this.status = status;
     }
 
+    public TaskType getTaskType() {
+        return TaskType.TASK;
+    }
+
     @Override
     public String toString() {
-        return "Task.Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", status=" + status +
-                '}';
+        return String.join(",",
+                getId().toString(),
+                TaskType.TASK.toString(),
+                getTitle(),
+                getStatus().toString(),
+                getDescription() != null ? getDescription() : "",
+                "");
     }
 
     @Override

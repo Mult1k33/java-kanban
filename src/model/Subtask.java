@@ -1,6 +1,7 @@
 package model;
 
 import enums.Status;
+import enums.TaskType;
 
 public class Subtask extends Task {
 
@@ -16,6 +17,11 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public Subtask(Integer id, String title, String description, Integer epicId) {
+        super(id, title, description);
+        this.epicId = epicId;
+    }
+
 
     public Integer getEpicId() {
         return epicId;
@@ -27,10 +33,18 @@ public class Subtask extends Task {
         }
     }
 
+    public TaskType getTaskType() {
+        return TaskType.SUBTASK;
+    }
+
     @Override
     public String toString() {
-        return "Task.Subtask{" +
-                "epicId=" + epicId +
-                "} " + super.toString();
+        return String.join(",",
+                getId().toString(),
+                TaskType.SUBTASK.toString(),
+                getTitle(),
+                getStatus().toString(),
+                getDescription(),
+                getEpicId().toString());
     }
 }
