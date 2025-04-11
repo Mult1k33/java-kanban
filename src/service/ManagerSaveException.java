@@ -1,7 +1,7 @@
 package service;
 
 /**
- * Исключение в случае проблем с чтением таск-менеджером из файла
+ * Исключение в случае проблем с сохранением данных таск-менеджером в файл
  */
 
 public class ManagerSaveException extends RuntimeException {
