@@ -25,7 +25,7 @@ public class FileBackedTaskManagerTest {
     // Создание временного файла и менеджера для записи задач перед каждым тестом
     @BeforeEach
     public void beforeEach() throws IOException {
-        file = Files.createTempFile(Paths.get("resources"), "task",".csv").toFile();
+        file = File.createTempFile("task",".csv");
         manager = new FileBackedTaskManager(file);
 
         BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -38,12 +38,12 @@ public class FileBackedTaskManagerTest {
     }
 
     // Удаление временного файла после каждого теста
-//    @AfterEach
-//    public void cleanUp() {
-//        if (file != null && file.exists()) {
-//            file.delete();
-//        }
-//    }
+    @AfterEach
+    public void cleanUp() {
+        if (file != null && file.exists()) {
+            file.delete();
+        }
+    }
 
     // Проверки, что задачи, эпики и подзадачи создаются в менеджере файлов
     @Test
