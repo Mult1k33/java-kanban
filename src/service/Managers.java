@@ -1,6 +1,7 @@
 package service;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Managers {
 
@@ -12,7 +13,7 @@ public class Managers {
         return new InMemoryHistoryManager();
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) {
+    public static FileBackedTaskManager loadFromFile(File file) throws IOException {
         return new FileBackedTaskManager(file);
     }
 

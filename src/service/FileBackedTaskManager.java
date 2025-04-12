@@ -5,6 +5,7 @@ import model.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,9 +15,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private final File file;
 
-    public FileBackedTaskManager(File file) {
+    public FileBackedTaskManager(File file) throws IOException {
         if (file == null) {
             throw new ManagerReadException("Файл не инициализирован");
+        }
+        if (!file.exists()) {
+            Files.createFile(file.toPath());
         }
         this.file = file;
         restoreFromFile();

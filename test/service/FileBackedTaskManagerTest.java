@@ -38,12 +38,12 @@ public class FileBackedTaskManagerTest {
     }
 
     // Удаление временного файла после каждого теста
-    @AfterEach
-    public void cleanUp() {
-        if (file.exists()) {
-            file.delete();
-        }
-    }
+//    @AfterEach
+//    public void cleanUp() {
+//        if (file != null && file.exists()) {
+//            file.delete();
+//        }
+//    }
 
     // Проверки, что задачи, эпики и подзадачи создаются в менеджере файлов
     @Test
@@ -58,7 +58,8 @@ public class FileBackedTaskManagerTest {
 
         Subtask subtask = new Subtask("Подзадача", "Описание подзадачи", 2);
         manager.createSubtask(subtask);
-        assertNotNull(manager.getSubtaskByEpic(2), "Подзадача должна находить по id своего эпика!");
+        assertFalse(manager.getSubtaskByEpic(epic.getId()).isEmpty(),
+                "Подзадача должна находить по id своего эпика!");
         assertEquals(subtask, manager.getSubtaskById(3),
                 "Подзадача должна быть создана и находиться по id!");
     }
@@ -84,6 +85,9 @@ public class FileBackedTaskManagerTest {
         // Выводим содержимое файла для отладки
         String fileContent = Files.readString(file.toPath(), StandardCharsets.UTF_8);
         System.out.println("Содержимое файла:\n" + fileContent);
+        assertTrue(fileContent.contains("Задача"), "Файл должен содержать задачу");
+        assertTrue(fileContent.contains("Эпик"), "Файл должен содержать эпик");
+        assertTrue(fileContent.contains("Подзадача"), "Файл должен содержать подзадачу");
 
         // Загрузка из файла
         FileBackedTaskManager loadedManager = Managers.loadFromFile(file);
