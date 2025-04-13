@@ -5,25 +5,18 @@ import model.*;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
-
-import static enums.TaskType.*;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
     private final File file;
 
-    public FileBackedTaskManager(File file) throws IOException {
+    public FileBackedTaskManager(File file) {
         if (file == null) {
             throw new ManagerReadException("Файл не инициализирован");
         }
-        if (!file.exists()) {
-            Files.createFile(file.toPath());
-        }
         this.file = file;
-        restoreFromFile();
     }
 
     //Методы для создания задач, эпиков и подзадач
@@ -109,6 +102,45 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         save();
     }
 
+    // Метод, который восстанавливает состояние менеджера из файла
+    public static FileBackedTaskManager loadFromFile(File file) {
+        if (file == null || !file.exists()) {
+            throw new ManagerReadException("Файл не существует");
+        }
+
+        FileBackedTaskManager manager = new FileBackedTaskManager(file);
+
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
+            String line;
+            bufferedReader.readLine();
+
+            List<Task> tasks = new ArrayList<>();
+
+            while ((line = bufferedReader.readLine()) != null) {
+                Task task = fromString(line);
+                if (task != null) {
+                    tasks.add(task);
+                }
+            }
+            for (Task task : tasks) {
+                switch (task.getTaskType()) {
+                    case TASK:
+                        manager.createTask((Task) task);
+                        break;
+                    case EPIC:
+                        manager.createEpic((Epic) task);
+                        break;
+                    case SUBTASK:
+                        manager.createSubtask((Subtask) task);
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            throw new ManagerReadException("Ошибка при чтении данных из файла: " + e.getMessage());
+        }
+        return manager;
+    }
+
     // Метод, который сохраняет текущее состояние менеджера в указанный файл
     private void save() {
         if (file == null) {
@@ -157,41 +189,5 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new IllegalArgumentException("Некорректные данные в строке: " + value, e);
         }
         return null;
-    }
-
-    //
-    private void restoreFromFile() {
-        if (file == null || !file.exists()) {
-            throw new ManagerReadException("Файл не существует");
-        }
-
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file, StandardCharsets.UTF_8))) {
-            String line;
-            bufferedReader.readLine();
-
-            List<Task> tasks = new ArrayList<>();
-
-            while ((line = bufferedReader.readLine()) != null) {
-                Task task = fromString(line);
-                if (task != null) {
-                    tasks.add(task);
-                }
-            }
-                    for (Task task : tasks) {
-                        switch (task.getTaskType()) {
-                        case TASK:
-                            createTask((Task) task);
-                            break;
-                        case EPIC:
-                            createEpic((Epic) task);
-                            break;
-                        case SUBTASK:
-                            createSubtask((Subtask) task);
-                            break;
-                    }
-                }
-            } catch (IOException e) {
-            throw new ManagerReadException("Ошибка при чтении данных из файла: " + e.getMessage());
-        }
     }
 }

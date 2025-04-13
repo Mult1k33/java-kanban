@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class FileBackedTaskManagerTest {
 
     private File file;
-    private FileBackedTaskManager manager;
+    public FileBackedTaskManager manager;
     private Task task;
     private Epic epic;
     private Subtask subtask;
@@ -78,6 +78,11 @@ public class FileBackedTaskManagerTest {
         Subtask subtask = new Subtask("Подзадача", "Описание подзадачи", epic.getId());
         manager.createSubtask(subtask);
 
+        // Проверка, что задачи всех типов есть в менеджере
+        assertEquals(1, manager.getAllTasks().size(), "Должна быть 1 задача в менеджере");
+        assertEquals(1, manager.getAllEpics().size(), "Должен быть 1 эпик в менеджере");
+        assertEquals(1, manager.getAllSubtasks().size(), "Должна быть 1 подзадача в менеджере");
+
         // Проверка записи в файл
         assertTrue(file.exists(), "Файл не создан!");
         assertTrue(file.length() > 0, "Файл пустой!");
@@ -90,11 +95,11 @@ public class FileBackedTaskManagerTest {
         assertTrue(fileContent.contains("Подзадача"), "Файл должен содержать подзадачу");
 
         // Загрузка из файла
-        FileBackedTaskManager loadedManager = Managers.loadFromFile(file);
+        FileBackedTaskManager loadedManager = FileBackedTaskManager.loadFromFile(file);
         // Проверки
-        assertFalse(loadedManager.getAllTasks().isEmpty(), "Нет задач после загрузки");
-        assertFalse(loadedManager.getAllEpics().isEmpty(), "Нет эпиков после загрузки");
-        assertFalse(loadedManager.getAllSubtasks().isEmpty(), "Нет подзадач после загрузки");
+        assertEquals(1, loadedManager.getAllTasks().size(), "Нет задач после загрузки");
+        assertEquals(1, loadedManager.getAllEpics().size(), "Нет эпиков после загрузки");
+        assertEquals(1, loadedManager.getAllSubtasks().size(), "Нет подзадач после загрузки");
     }
 
     // Проверки, что задачи всех типов обновляются в менеджере файлов
