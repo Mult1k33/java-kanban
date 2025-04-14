@@ -207,7 +207,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     // Проверка статуса эпика при удалении или изменении подзадачи
-    private void checkEpicStatus(Integer idEpic) {
+    public void checkEpicStatus(Integer idEpic) {
         Integer countOfNew = 0;
         Integer countOfDone = 0;
         final Epic epic = allEpics.get(idEpic);
