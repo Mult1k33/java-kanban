@@ -1,14 +1,16 @@
 package model;
 
-import enums.Status;
-import enums.TaskType;
-
+import enums.*;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 public class Epic extends Task {
 
     private List<Integer> subtasksId = new ArrayList<>();
+    private LocalDateTime endTime;
 
     public Epic(String title, String description) {
         super(title, description);
@@ -25,8 +27,16 @@ public class Epic extends Task {
         this.subtasksId = new ArrayList<>();
     }
 
+    public Epic(String title, String description, LocalDateTime startTime, Duration duration) {
+        super(title, description, startTime, duration);
+        this.subtasksId = new ArrayList<>();
+    }
+
     public void addSubtask(Integer subtaskId) {
-        if (subtaskId != this.getId()) {
+        if (subtaskId == null || subtaskId.equals(this.getId())) {
+            return;
+        }
+        if (!subtasksId.contains(subtaskId)) {
             subtasksId.add(subtaskId);
         }
     }
@@ -43,6 +53,10 @@ public class Epic extends Task {
         subtasksId.remove(id);
     }
 
+    public void deleteAllSubtasks() {
+        subtasksId.clear();
+    }
+
     public void setSubtasksId(List<Integer> subtasksId) {
         this.subtasksId = subtasksId;
     }
@@ -51,14 +65,25 @@ public class Epic extends Task {
         return TaskType.EPIC;
     }
 
+    public LocalDateTime getEndTime() {
+        return this.endTime;
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
+
     @Override
     public String toString() {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd|HH:mm");
         return String.join(",",
                 getId().toString(),
                 TaskType.EPIC.toString(),
                 getTitle(),
-                getStatus().toString(),
-                getDescription(),
-                "");
+                getDescription() != null ? getDescription() : "",
+                getStatus() != null ? getStatus().toString() : Status.NEW.toString(),
+                "",
+                getStartTime() != null ? getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : "",
+                getDuration() != null ? String.valueOf(getDuration().toMinutes()) : "0");
     }
 }

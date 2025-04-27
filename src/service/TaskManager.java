@@ -1,10 +1,8 @@
 package service;
 
-import model.Epic;
-import model.Subtask;
-import model.Task;
-
+import model.*;
 import java.util.List;
+
 
 public interface TaskManager {
 
@@ -55,4 +53,7 @@ public interface TaskManager {
 
     //Метод для отображения последних просмотренных задач
     List<Task> getHistory();
+
+    // Метод получения отсортированного списка задач по приоритету
+    List<Task> getPrioritizedTasks();
 }

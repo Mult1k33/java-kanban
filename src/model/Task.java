@@ -1,9 +1,10 @@
 package model;
 
-import enums.Status;
-import enums.TaskType;
-
+import enums.*;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
+import java.time.LocalDateTime;
+import java.time.Duration;
 
 public class Task {
 
@@ -11,11 +12,16 @@ public class Task {
     private String title;
     private String description;
     private Status status;
+    private LocalDateTime startTime;
+    private Duration duration;
 
     public Task(Integer id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
+        this.status = Status.NEW;
+        this.startTime = null;
+        this.duration = null;
     }
 
     public Task(Integer id, String title, String description, Status status) {
@@ -23,12 +29,44 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = status;
+        this.startTime = null;
+        this.duration = null;
     }
 
     public Task(String title, String description) {
         this.title = title;
         this.description = description;
         status = Status.NEW;
+    }
+
+    public Task(Integer id,
+                String title,
+                String description,
+                Status status,
+                LocalDateTime startTime,
+                Duration duration) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+    public Task(String title, String description, LocalDateTime startTime, Duration duration) {
+        this.title = title;
+        this.description = description;
+        this.status = Status.NEW;
+        this.startTime = startTime;
+        this.duration = duration;
+    }
+
+    public Task(String title, String description, Status status, LocalDateTime startTime, Duration duration) {
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     public Integer getId() {
@@ -68,15 +106,37 @@ public class Task {
         return TaskType.TASK;
     }
 
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return startTime.plus(duration);
+    }
+
     @Override
     public String toString() {
         return String.join(",",
                 getId().toString(),
                 TaskType.TASK.toString(),
                 getTitle(),
-                getStatus().toString(),
                 getDescription() != null ? getDescription() : "",
-                "");
+                getStatus() != null ? getStatus().toString() : Status.NEW.toString(),
+                "",
+                getStartTime() != null ? getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : "",
+                getDuration() != null ? String.valueOf(duration.toMinutes()) : "0");
     }
 
     @Override

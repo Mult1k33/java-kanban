@@ -2,7 +2,8 @@ package model;
 
 import enums.Status;
 import org.junit.jupiter.api.Test;
-import model.Task;
+import java.time.LocalDateTime;
+import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
