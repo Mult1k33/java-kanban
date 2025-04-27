@@ -5,11 +5,10 @@ import model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.time.Duration;
-import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,12 +27,12 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
         manager = new FileBackedTaskManager(file);
         taskManager = manager;
 
-       try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));) {
-           writer.write("id,type,title,description,status,epic\n");
-           writer.write(task + "\n");
-           writer.write(epic + "\n");
-           writer.write(subtask + "\n");
-       }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file));) {
+            writer.write("id,type,title,description,status,epic\n");
+            writer.write(task + "\n");
+            writer.write(epic + "\n");
+            writer.write(subtask + "\n");
+        }
     }
 
     // Удаление временного файла после каждого теста

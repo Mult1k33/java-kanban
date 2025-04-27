@@ -2,6 +2,7 @@ package service;
 
 import enums.*;
 import model.*;
+
 import java.util.*;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -13,7 +14,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Integer, Subtask> allSubtasks = new HashMap<>();
     private final HistoryManager historyManager = Managers.getDefaultHistory();
     private Integer id = 1;
-    private final Comparator<Task> taskComparator = Comparator.comparing(Task :: getStartTime,
+    private final Comparator<Task> taskComparator = Comparator.comparing(Task::getStartTime,
             Comparator.nullsLast(Comparator.naturalOrder()));
     private final Set<Task> prioritizedTasks = new TreeSet<>(taskComparator);
 
