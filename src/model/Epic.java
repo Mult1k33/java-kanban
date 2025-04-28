@@ -87,4 +87,16 @@ public class Epic extends Task {
                 getStartTime() != null ? getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : "",
                 getDuration() != null ? String.valueOf(getDuration().toMinutes()) : "0");
     }
+
+    public static Epic parseEpicFromString(String[] words) {
+        Epic epic = new Epic(
+                Integer.parseInt(words[0]),
+                words[2],
+                words[3]
+        );
+        epic.setStatus(Status.valueOf(words[4]));
+        epic.setStartTime(Epic.parseDateTime(words[6]));
+        epic.setDuration(Epic.parseDuration(words[7]));
+        return epic;
+    }
 }

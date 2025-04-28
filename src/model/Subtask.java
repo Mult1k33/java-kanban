@@ -57,4 +57,21 @@ public class Subtask extends Task {
                 getStartTime() != null ? getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : "",
                 getDuration() != null ? String.valueOf(getDuration().toMinutes()) : "0");
     }
+
+    public static Subtask parseSubtaskFromString(String[] words) {
+        if (words[5].isEmpty()) {
+            throw new IllegalArgumentException("У подзадачи не указан epicId");
+        }
+
+        Subtask subtask = new Subtask(
+                Integer.parseInt(words[0]),
+                words[2],
+                words[3],
+                Integer.parseInt(words[5])
+        );
+        subtask.setStatus(Status.valueOf(words[4]));
+        subtask.setStartTime(parseDateTime(words[6]));
+        subtask.setDuration(parseDuration(words[7]));
+        return subtask;
+    }
 }

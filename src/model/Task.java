@@ -21,8 +21,6 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = Status.NEW;
-        this.startTime = null;
-        this.duration = null;
     }
 
     public Task(Integer id, String title, String description, Status status) {
@@ -30,8 +28,6 @@ public class Task {
         this.title = title;
         this.description = description;
         this.status = status;
-        this.startTime = null;
-        this.duration = null;
     }
 
     public Task(String title, String description) {
@@ -127,6 +123,17 @@ public class Task {
         return startTime.plus(duration);
     }
 
+    public static Task parseTaskFromString(String[] words) {
+        Task task = new Task(Integer.parseInt(words[0]),
+                words[2],
+                words[3]
+        );
+        task.setStatus(Status.valueOf(words[4]));
+        task.setStartTime(parseDateTime(words[6]));
+        task.setDuration(parseDuration(words[7]));
+        return task;
+    }
+
     @Override
     public String toString() {
         return String.join(",",
@@ -150,5 +157,14 @@ public class Task {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    protected static LocalDateTime parseDateTime(String value) {
+        return value.isEmpty() ? null :
+                LocalDateTime.parse(value, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+    }
+
+    protected static Duration parseDuration(String value) {
+        return Duration.ofMinutes(Long.parseLong(value.isEmpty() ? "0" : value));
     }
 }

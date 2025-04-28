@@ -6,9 +6,10 @@ import model.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.time.Duration;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+
+import static model.Epic.parseEpicFromString;
+import static model.Subtask.parseSubtaskFromString;
+import static model.Task.parseTaskFromString;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
 
@@ -164,49 +165,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     // Метод создания задачи из строки
     private static Task fromString(String value) {
-        String[] words = value.split(",", -1);  // -1 сохраняет пустые поля
+        String[] words = value.split(",", -1);
 
         try {
-            int id = Integer.parseInt(words[0]);
             TaskType type = TaskType.valueOf(words[1]);
-            String title = words[2];
-            String description = words[3];
-            Status status = Status.valueOf(words[4]);
-            String epicIdStr = words.length > 5 ? words[5] : "";
-            String startTimeStr = words.length > 6 ? words[6] : "";
-            String durationStr = words.length > 7 ? words[7] : "0"; // По умолчанию 0
-
-            LocalDateTime startTime = !startTimeStr.isEmpty()
-                    ? LocalDateTime.parse(startTimeStr, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-                    : null;
-            Duration duration = Duration.ofMinutes(Long.parseLong(durationStr));
-
-            switch (type) {
-                case TASK:
-                    Task task = new Task(id, title, description);
-                    task.setStatus(status);
-                    task.setStartTime(startTime);
-                    task.setDuration(duration);
-                    return task;
-                case EPIC:
-                    Epic epic = new Epic(id, title, description);
-                    epic.setStatus(status);
-                    epic.setStartTime(startTime);
-                    epic.setDuration(duration);
-                    return epic;
-                case SUBTASK:
-                    if (epicIdStr.isEmpty()) {
-                        throw new IllegalArgumentException("У подзадачи не указан epicId");
-                    }
-                    Subtask subtask = new Subtask(id, title, description, Integer.parseInt(epicIdStr));
-                    subtask.setStatus(status);
-                    subtask.setStartTime(startTime);
-                    subtask.setDuration(duration);
-                    return subtask;
-            }
+            return switch (type) {
+                case TASK -> parseTaskFromString(words);
+                case EPIC -> parseEpicFromString(words);
+                case SUBTASK -> parseSubtaskFromString(words);
+            };
         } catch (Exception e) {
             throw new IllegalArgumentException("Ошибка парсинга строки: " + value, e);
         }
-        return null;
     }
 }
