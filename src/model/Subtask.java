@@ -1,7 +1,10 @@
 package model;
 
-import enums.Status;
-import enums.TaskType;
+import enums.*;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Subtask extends Task {
 
@@ -22,6 +25,11 @@ public class Subtask extends Task {
         this.epicId = epicId;
     }
 
+    public Subtask(String title, String description, LocalDateTime startTime, Duration duration, Integer epicId) {
+        super(title, description, startTime, duration);
+        this.setStatus(Status.NEW);
+        this.epicId = epicId;
+    }
 
     public Integer getEpicId() {
         return epicId;
@@ -43,8 +51,27 @@ public class Subtask extends Task {
                 getId().toString(),
                 TaskType.SUBTASK.toString(),
                 getTitle(),
-                getStatus().toString(),
-                getDescription(),
-                getEpicId().toString());
+                getDescription() != null ? getDescription() : "",
+                getStatus() != null ? getStatus().toString() : Status.NEW.toString(),
+                getEpicId().toString(),
+                getStartTime() != null ? getStartTime().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME) : "",
+                getDuration() != null ? String.valueOf(getDuration().toMinutes()) : "0");
+    }
+
+    public static Subtask parseSubtaskFromString(String[] words) {
+        if (words[5].isEmpty()) {
+            throw new IllegalArgumentException("У подзадачи не указан epicId");
+        }
+
+        Subtask subtask = new Subtask(
+                Integer.parseInt(words[0]),
+                words[2],
+                words[3],
+                Integer.parseInt(words[5])
+        );
+        subtask.setStatus(Status.valueOf(words[4]));
+        subtask.setStartTime(parseDateTime(words[6]));
+        subtask.setDuration(parseDuration(words[7]));
+        return subtask;
     }
 }

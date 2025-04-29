@@ -67,6 +67,37 @@ class InMemoryHistoryManagerTest {
                 "Задача 1 должна быть в конце списка после повторного добавления!");
     }
 
+    // Проверка, что история пустая
+    @Test
+    public void shouldHandleEmptyHistory() {
+        assertTrue(historyManager.getHistory().isEmpty(), "История должна быть пустой при инициализации");
+    }
+
+    // Проверка, что история не содержит дубликатов
+    @Test
+    public void shouldRemoveDuplicates() {
+        Task task1 = new Task(1, "Задача 1", "Описание задачи 1", Status.NEW);
+        historyManager.add(task1);
+        historyManager.add(task1);
+        assertEquals(1, historyManager.getHistory().size(), "История не должна содержать дубликатов");
+    }
+
+    // Проверка удаления из начала истории
+    @Test
+    public void shouldRemoveFromBeginning() {
+        Task task1 = new Task(1, "Задача 1", "Описание задачи 1", Status.NEW);
+        Task task2 = new Task(2, "Задача 2", "Описание задачи 2", Status.IN_PROGRESS);
+        Task task3 = new Task(3, "Задача 3", "Описание задачи 3", Status.DONE);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.remove(1);
+        List<Task> historyList = historyManager.getHistory();
+        assertEquals(2, historyList.size(), "В истории должно быть 2 элемента!");
+        assertEquals(task2, historyList.get(0), "Задача 2 должна быть в начале списка!");
+        assertEquals(task3, historyList.get(1), "Задача 3 должна сместиться в истории!");
+    }
+
     //Проверка удаления из середины истории
     @Test
     public void shouldRemoveTaskFromMiddle() {
@@ -81,6 +112,22 @@ class InMemoryHistoryManagerTest {
         assertEquals(2, historyList.size(), "В истории должно быть 2 элемента!");
         assertEquals(task1, historyList.get(0), "Задача 1 должна быть в начале списка!");
         assertEquals(task3, historyList.get(1), "Задача 3 должна сместиться в истории!");
+    }
+
+    // Проверка удаления из конца истории
+    @Test
+    public void shouldRemoveTaskFromEnd() {
+        Task task1 = new Task(1, "Задача 1", "Описание задачи 1", Status.NEW);
+        Task task2 = new Task(2, "Задача 2", "Описание задачи 2", Status.IN_PROGRESS);
+        Task task3 = new Task(3, "Задача 3", "Описание задачи 3", Status.DONE);
+        historyManager.add(task1);
+        historyManager.add(task2);
+        historyManager.add(task3);
+        historyManager.remove(3);
+        List<Task> historyList = historyManager.getHistory();
+        assertEquals(2, historyList.size(), "В истории должно быть 2 элемента!");
+        assertEquals(task1, historyList.get(0), "Задача 1 должна быть в начале списка!");
+        assertEquals(task2, historyList.get(1), "Задача 3 должна сместиться в истории!");
     }
 
     // Проверка граничных случаев удаления

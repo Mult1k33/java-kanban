@@ -2,7 +2,6 @@ package model;
 
 import enums.Status;
 import org.junit.jupiter.api.Test;
-import model.Subtask;
 
 import static org.junit.jupiter.api.Assertions.*;
 
