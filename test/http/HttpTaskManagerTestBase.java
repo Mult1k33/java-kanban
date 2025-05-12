@@ -23,6 +23,7 @@ public class HttpTaskManagerTestBase {
 
     @BeforeEach
     void setUp() throws IOException {
+
         taskManager = new InMemoryTaskManager();
         taskServer = new HttpTaskServer(taskManager);
         taskServer.start();
