@@ -4,13 +4,15 @@ import enums.*;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class Epic extends Task {
 
-    private List<Integer> subtasksId = new ArrayList<>();
+    private List<Integer> subtasksId;
     private LocalDateTime endTime;
 
     public Epic(String title, String description) {
@@ -34,8 +36,11 @@ public class Epic extends Task {
     }
 
     public void addSubtask(Integer subtaskId) {
-        if (subtaskId == null || subtaskId.equals(this.getId())) {
+        if (subtaskId == null || Objects.equals(subtaskId, this.getId())) {
             return;
+        }
+        if (subtasksId == null) {
+            subtasksId = new ArrayList<>(); // Инициализация, если список null
         }
         if (!subtasksId.contains(subtaskId)) {
             subtasksId.add(subtaskId);
@@ -43,6 +48,9 @@ public class Epic extends Task {
     }
 
     public List<Integer> getSubtasksId() {
+        if (subtasksId == null) {
+            return Collections.emptyList();
+        }
         return subtasksId;
     }
 
