@@ -25,7 +25,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics"))
+                .uri(URI.create(BASE_URL + "/epics"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -53,7 +53,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на создание
         HttpRequest createRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics"))
+                .uri(URI.create(BASE_URL + "/epics"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -75,7 +75,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на обновление
         HttpRequest updateRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics"))
+                .uri(URI.create(BASE_URL + "/epics"))
                 .POST(HttpRequest.BodyPublishers.ofString(updateJson))
                 .build();
 
@@ -105,7 +105,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics"))
+                .uri(URI.create(BASE_URL + "/epics"))
                 .GET()
                 .build();
 
@@ -133,7 +133,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics/" + epic2.getId()))
+                .uri(URI.create(BASE_URL + "/epics/" + epic2.getId()))
                 .GET()
                 .build();
 
@@ -157,7 +157,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на удаление
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics/" + epic2.getId()))
+                .uri(URI.create(BASE_URL + "/epics/" + epic2.getId()))
                 .DELETE()
                 .build();
 
@@ -179,7 +179,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на удаление
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics"))
+                .uri(URI.create(BASE_URL + "/epics"))
                 .DELETE()
                 .build();
 
@@ -195,7 +195,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса с неподдерживаемым методом
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics"))
+                .uri(URI.create(BASE_URL + "/epics"))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
@@ -208,7 +208,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
     public void testGetEpicByIdNotFound() throws IOException, InterruptedException {
         // Отправка запроса на получение несуществующего эпика
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/epics/999"))
+                .uri(URI.create(BASE_URL + "/epics/999"))
                 .GET()
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -222,7 +222,7 @@ public class EpicHandleTest extends HttpTaskManagerTestBase {
         epic1.setTitle(null);
 
         String taskForRequest = gson.toJson(epic1);
-        URI url = URI.create("http://localhost:8080/epics");
+        URI url = URI.create(BASE_URL + "/epics");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .POST(HttpRequest.BodyPublishers.ofString(taskForRequest))

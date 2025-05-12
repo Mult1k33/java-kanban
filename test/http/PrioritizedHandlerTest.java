@@ -29,7 +29,7 @@ public class PrioritizedHandlerTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/prioritized"))
+                .uri(URI.create(BASE_URL + "/prioritized"))
                 .GET()
                 .build();
 
@@ -46,7 +46,7 @@ public class PrioritizedHandlerTest extends HttpTaskManagerTestBase {
     public void testNotAllowedMethod() throws IOException, InterruptedException {
         // Отправка запроса с неподдерживаемым методом
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/prioritized"))
+                .uri(URI.create(BASE_URL + "/prioritized"))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 

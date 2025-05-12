@@ -31,7 +31,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -62,7 +62,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на создание
         HttpRequest createRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -87,7 +87,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на обновление
         HttpRequest updateRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(updateJson))
                 .build();
 
@@ -124,7 +124,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .GET()
                 .build();
 
@@ -154,7 +154,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks/" + subtask2.getId()))
+                .uri(URI.create(BASE_URL + "/subtasks/" + subtask2.getId()))
                 .GET()
                 .build();
 
@@ -180,7 +180,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks/" + subtask2.getId()))
+                .uri(URI.create(BASE_URL + "/subtasks/" + subtask2.getId()))
                 .DELETE()
                 .build();
 
@@ -204,7 +204,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на удаление
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .DELETE()
                 .build();
 
@@ -221,7 +221,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
         Epic epic = new Epic("Эпик 1", "Описание эпика 1");
         taskManager.createEpic(epic);
 
-        LocalDateTime startTime = LocalDateTime.of(2025, 5,12,12,0);
+        LocalDateTime startTime = LocalDateTime.of(2025, 5, 12, 12, 0);
         Duration duration = Duration.ofMinutes(20);
 
         Subtask subtask1 = new Subtask("Подзадача 1", "Описание подзадачи 1",
@@ -234,7 +234,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -245,7 +245,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest overlapRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -259,7 +259,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
     public void testNotAllowedMethod() throws IOException, InterruptedException {
         // Отправка запроса с неподдерживаемым методом
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks"))
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
@@ -272,7 +272,7 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
     public void testGetSubtaskByIdNotFound() throws IOException, InterruptedException {
         // Отправка запроса на получение несуществующей подзадачи
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/subtasks/999"))
+                .uri(URI.create(BASE_URL + "/subtasks/999"))
                 .GET()
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -290,9 +290,8 @@ public class SubtaskHandleTest extends HttpTaskManagerTestBase {
         subtask.setTitle(null);
 
         String taskForRequest = gson.toJson(subtask);
-        URI url = URI.create("http://localhost:8080/subtasks");
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(url)
+                .uri(URI.create(BASE_URL + "/subtasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskForRequest))
                 .build();
 

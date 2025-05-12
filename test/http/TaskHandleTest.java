@@ -28,7 +28,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -57,7 +57,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на создание
         HttpRequest createRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -81,7 +81,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на обновление
         HttpRequest updateRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(updateJson))
                 .build();
 
@@ -115,7 +115,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .GET()
                 .build();
 
@@ -142,7 +142,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на получение
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks/" + task5.getId()))
+                .uri(URI.create(BASE_URL + "/tasks/" + task5.getId()))
                 .GET()
                 .build();
 
@@ -166,7 +166,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на удаление
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks/" + task7.getId()))
+                .uri(URI.create(BASE_URL + "/tasks/" + task7.getId()))
                 .DELETE()
                 .build();
 
@@ -188,7 +188,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса на удаление
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .DELETE()
                 .build();
 
@@ -211,7 +211,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -222,7 +222,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest overlapRequest = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .POST(HttpRequest.BodyPublishers.ofString(taskJson))
                 .build();
 
@@ -236,7 +236,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса с неподдерживаемым методом
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks"))
+                .uri(URI.create(BASE_URL + "/tasks"))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
@@ -249,7 +249,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
     public void testGetTaskByIdNotFound() throws IOException, InterruptedException {
         // Отправка запроса на получение несуществующей задачи
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/tasks/999"))
+                .uri(URI.create(BASE_URL + "/tasks/999"))
                 .GET()
                 .build();
         HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
@@ -263,7 +263,7 @@ public class TaskHandleTest extends HttpTaskManagerTestBase {
         task.setTitle(null);
 
         String taskForRequest = gson.toJson(task);
-        URI url = URI.create("http://localhost:8080/tasks");
+        URI url = URI.create(BASE_URL + "/tasks");
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(url)
                 .POST(HttpRequest.BodyPublishers.ofString(taskForRequest))

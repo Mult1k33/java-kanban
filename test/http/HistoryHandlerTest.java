@@ -24,7 +24,7 @@ public class HistoryHandlerTest extends HttpTaskManagerTestBase {
 
         // Отправка запроса
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/history"))
+                .uri(URI.create(BASE_URL + "/history"))
                 .GET()
                 .build();
 
@@ -42,7 +42,7 @@ public class HistoryHandlerTest extends HttpTaskManagerTestBase {
     public void testNotAllowedMethod() throws IOException, InterruptedException {
         // Отправка запроса с неподдерживаемым методом
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://localhost:8080/history"))
+                .uri(URI.create(BASE_URL + "/history"))
                 .PUT(HttpRequest.BodyPublishers.ofString(""))
                 .build();
 
