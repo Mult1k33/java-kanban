@@ -9,14 +9,12 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 
 public class HttpTaskServer {
-    private static final int PORT = 8085;
-    private final HttpServer server;
+    private static final int PORT = 8080;
     private final TaskManager manager;
+    private HttpServer server;
 
-    public HttpTaskServer(TaskManager manager) throws IOException {
+    public HttpTaskServer(TaskManager manager) {
         this.manager = manager;
-        this.server = HttpServer.create(new InetSocketAddress(PORT), 0);
-
     }
 
     public static void main(String[] args) throws IOException {
@@ -25,7 +23,8 @@ public class HttpTaskServer {
         server.start();
     }
 
-    public void start() {
+    public void start() throws IOException {
+        server = HttpServer.create(new InetSocketAddress(PORT), 0);
         server.createContext("/tasks", new TaskHandler(manager));
         server.createContext("/subtasks", new SubtaskHandler(manager));
         server.createContext("/epics", new EpicHandler(manager));
@@ -37,7 +36,7 @@ public class HttpTaskServer {
     }
 
     public void stop() {
-        server.stop(3);
+        server.stop(1);
         System.out.println("HTTP-сервер остановлен");
     }
 }

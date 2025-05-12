@@ -19,7 +19,7 @@ public class HttpTaskManagerTestBase {
     protected HttpTaskServer taskServer;
     protected HttpClient httpClient;
     protected Gson gson;
-    protected static final String BASE_URL = "http://localhost:8085";
+    protected static final String BASE_URL = "http://localhost:8080";
 
     @BeforeEach
     void setUp() throws IOException {
