@@ -58,7 +58,6 @@ public class InMemoryTaskManager implements TaskManager {
             prioritizedTasks.removeIf(task -> task.getId().equals(id));
             historyManager.remove(id);
         });
-        
         allEpics.keySet().forEach(historyManager::remove);
         allEpics.clear();
     }
