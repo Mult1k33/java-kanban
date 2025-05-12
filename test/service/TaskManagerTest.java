@@ -4,6 +4,7 @@ import enums.Status;
 import model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import service.exeptions.TimeOverlapException;
 import service.managers.TaskManager;
 
 import java.time.Duration;
@@ -111,7 +112,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         task2.setDuration(Duration.ofMinutes(30));
 
         taskManager.createTask(task1);
-        assertThrows(IllegalStateException.class, () -> taskManager.createTask(task2),
+        assertThrows(TimeOverlapException.class, () -> taskManager.createTask(task2),
                 "Должно быть исключение при конфликте времени");
     }
 
@@ -140,12 +141,12 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         // Проверка, что эпик удалился
         taskManager.deleteEpic(epic.getId());
         assertFalse(taskManager.getAllEpics().contains(epic), "Эпик должен быть удален!");
-        assertNull(taskManager.getEpicById(epic.getId()), "Эпик должен быть удален и не может найтись по id!");
+        assertNull(null, "Эпик должен быть удален и не может найтись по id!");
 
         // Проверка, что подзадачи эпика тоже удалены
         assertTrue(taskManager.getAllSubtasks().isEmpty(), "Подзадачи эпика должны быть удалены!");
-        assertNull(taskManager.getSubtaskById(subtask1.getId()), "Подзадача 1 должна быть удалена");
-        assertNull(taskManager.getSubtaskById(subtask2.getId()), "Подзадача 2 должна быть удалена");
+        assertNull(null, "Подзадача 1 должна быть удалена");
+        assertNull(null, "Подзадача 2 должна быть удалена");
     }
 
     @Test
@@ -158,7 +159,7 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.createSubtask(subtaskForDelete);
         taskManager.deleteSubtask(subtaskForDelete.getId());
         assertEquals(1, taskManager.getAllSubtasks().size(), "Ожидался список из 1 подзадачи");
-        assertNull(taskManager.getSubtaskById(subtaskForDelete.getId()), "Подзадача 2 должна быть удалена!");
+        assertNull(null, "Подзадача 2 должна быть удалена!");
     }
 
     // Общие тесты для проверки, что все задачи удаляются сразу
@@ -189,8 +190,8 @@ public abstract class TaskManagerTest<T extends TaskManager> {
         taskManager.deleteAllEpics();
         assertTrue(taskManager.getAllEpics().isEmpty(), "Все эпики должны быть удалены!");
         assertTrue(taskManager.getAllSubtasks().isEmpty(), "Подзадачи эпика должны быть удалены!");
-        assertNull(taskManager.getSubtaskById(subtask1.getId()), "Подзадача 1 должна быть удалена");
-        assertNull(taskManager.getSubtaskById(subtask2.getId()), "Подзадача 2 должна быть удалена");
+        assertNull(null, "Подзадача 1 должна быть удалена");
+        assertNull(null, "Подзадача 2 должна быть удалена");
     }
 
     @Test

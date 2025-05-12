@@ -24,9 +24,6 @@ public class HttpTaskManagerTestBase {
     void setUp() throws IOException {
         taskManager = new InMemoryTaskManager();
         taskServer = new HttpTaskServer(taskManager);
-        taskManager.deleteAllTasks();
-        taskManager.deleteAllEpics();
-        taskManager.deleteAllSubtasks();
         taskServer.start();
         gson = new GsonBuilder()
                 .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter())
