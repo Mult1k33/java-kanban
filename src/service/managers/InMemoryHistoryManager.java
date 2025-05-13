@@ -1,10 +1,11 @@
-package service;
+package service.managers;
 
 import java.util.*;
 import java.util.List;
 import java.util.Map;
 
 import model.Task;
+import model.TaskNode;
 
 public class InMemoryHistoryManager implements HistoryManager {
 

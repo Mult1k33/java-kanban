@@ -1,4 +1,4 @@
-package service;
+package service.exeptions;
 
 /**
  * Исключение в случае проблем с чтением таск-менеджером из файла

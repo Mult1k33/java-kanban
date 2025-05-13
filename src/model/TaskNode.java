@@ -1,6 +1,4 @@
-package service;
-
-import model.Task;
+package model;
 
 // Вспомогательный класс Node для работы с узлами двусвязного списка
 

@@ -1,4 +1,4 @@
-package service;
+package service.managers;
 
 import model.*;
 import java.util.List;

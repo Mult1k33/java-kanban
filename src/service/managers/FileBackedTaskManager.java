@@ -1,7 +1,9 @@
-package service;
+package service.managers;
 
 import enums.*;
 import model.*;
+import service.exeptions.ManagerReadException;
+import service.exeptions.ManagerSaveException;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
